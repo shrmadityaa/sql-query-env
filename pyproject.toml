@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sql-query-env"
+version = "1.0.0"
+description = "An OpenEnv environment where an AI agent writes SQL queries of increasing complexity"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "shrmadityaa" }
+]
+dependencies = [
+    "openenv-core>=0.2.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.6",
+    "pydantic>=2.8.2",
+    "openai>=1.51.0",
+    "requests>=2.32.3",
+]
+
+[project.scripts]
+server = "server.app:run"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["server*"]

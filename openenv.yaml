@@ -1,0 +1,59 @@
+name: sql-query-env
+version: "1.0.0"
+description: >
+  A real-world OpenEnv environment where an AI agent learns to write correct SQL
+  queries of increasing complexity — from simple filtering to joins and aggregations.
+
+tasks:
+  - id: easy
+    difficulty: easy
+    description: "SELECT with WHERE clause to filter rows by department"
+  - id: medium
+    difficulty: medium
+    description: "JOIN query combining employees and departments tables"
+  - id: hard
+    difficulty: hard
+    description: "GROUP BY + HAVING aggregation filtering by average salary"
+
+api:
+  base_url: "http://localhost:7860"
+  endpoints:
+    reset:
+      method: POST
+      path: /reset
+    step:
+      method: POST
+      path: /step
+    state:
+      method: GET
+      path: /state
+
+action_space:
+  type: text
+  description: "A valid SQL query string"
+
+observation_space:
+  type: object
+  fields:
+    - name: task_id
+      type: string
+    - name: difficulty
+      type: string
+      values: [easy, medium, hard]
+    - name: question
+      type: string
+    - name: schema_description
+      type: string
+
+reward:
+  min: 0.0
+  max: 1.0
+  partial: true
+  description: >
+    1.0 for exact match. Partial F1 score (up to 0.9) for partial results.
+    0.0 for SQL errors or completely wrong output.
+
+episode:
+  max_steps_per_task: 3
+  advance_threshold: 0.5
+  total_tasks: 3
