@@ -100,20 +100,20 @@ def _run_sql(schema_sql: str, query: str):
 def _grade(task: dict, query: str) -> tuple[float, str]:
     rows, error = _run_sql(task["schema_sql"], query)
     if error:
-        return 0.0, f"SQL error: {error}"
+        return 0.01, f"SQL error: {error}"
 
     result_set = set(tuple(r) for r in rows)
     expected = task["expected"]
 
     if result_set == expected:
-        return 1.0, "Perfect match — all rows correct."
+        return 0.99, "Perfect match — all rows correct."
 
     correct = len(result_set & expected)
     extra = len(result_set - expected)
     missing = len(expected - result_set)
 
     if correct == 0:
-        return 0.0, f"No matching rows. Missing {missing}, got {len(result_set)} wrong rows."
+        return 0.01, f"No matching rows. Missing {missing}, got {len(result_set)} wrong rows."
 
     precision = correct / (correct + extra) if (correct + extra) > 0 else 0
     recall = correct / len(expected)
