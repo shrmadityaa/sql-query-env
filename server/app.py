@@ -68,5 +68,5 @@ def grade_task(task_id: str, inp: StepInput):
     if not task:
         return {"error": "task not found"}
     reward, feedback = _grade(task, inp.query)
-    return {"task_id": task_id, "reward": reward, "feedback": feedback}
+    return {"task_id": task_id, "score": reward, "feedback": feedback}  # ← "score" not "reward"
 
