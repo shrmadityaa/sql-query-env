@@ -43,3 +43,29 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+@app.get("/tasks")
+def list_tasks():
+    from server.environment import TASKS
+    return {
+        "tasks": [
+            {
+                "id": t["id"],
+                "difficulty": t["difficulty"],
+                "question": t["question"],
+                "schema_description": t["schema_description"],
+                "reward_range": {"min": 0.01, "max": 0.99}
+            }
+            for t in TASKS
+        ]
+    }
+
+@app.post("/tasks/{task_id}/grade")
+def grade_task(task_id: str, inp: StepInput):
+    from server.environment import TASKS, _grade
+    task = next((t for t in TASKS if t["id"] == task_id), None)
+    if not task:
+        return {"error": "task not found"}
+    reward, feedback = _grade(task, inp.query)
+    return {"task_id": task_id, "reward": reward, "feedback": feedback}
+
