@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
 @app.get("/tasks")
 def list_tasks():
-    from server.environment import TASKS
+    from server.environment import TASKS, _grade
     return {
         "tasks": [
             {
@@ -54,7 +54,8 @@ def list_tasks():
                 "difficulty": t["difficulty"],
                 "question": t["question"],
                 "schema_description": t["schema_description"],
-                "reward_range": {"min": 0.01, "max": 0.99}
+                "reward_range": {"min": 0.01, "max": 0.99},
+                "grader": f"/tasks/{t['id']}/grade"
             }
             for t in TASKS
         ]
