@@ -118,7 +118,7 @@ def _grade(task: dict, query: str) -> tuple[float, str]:
     precision = correct / (correct + extra) if (correct + extra) > 0 else 0
     recall = correct / len(expected)
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
-    return round(f1 * 0.9, 4), f"Partial: {correct}/{len(expected)} correct rows, {extra} extra."
+    return max(0.01, round(f1 * 0.9, 4)), f"Partial: {correct}/{len(expected)} correct rows, {extra} extra."
 
 
 def env_reset() -> dict:
