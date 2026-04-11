@@ -69,7 +69,7 @@ _state = {
     "task_index": 0,
     "current_task": None,
     "done": False,
-    "last_reward": 0.0,
+    "last_reward": 0.01,
     "step_count": 0,
     "total_reward": 0.0,
 }
@@ -125,7 +125,7 @@ def env_reset() -> dict:
     _state["task_index"] = 0
     _state["current_task"] = TASKS[0]
     _state["done"] = False
-    _state["last_reward"] = 0.0
+    _state["last_reward"] = 0.01
     _state["step_count"] = 0
     _state["total_reward"] = 0.0
     return {
@@ -138,7 +138,7 @@ def env_reset() -> dict:
 def env_step(query: str) -> dict:
     task = _state["current_task"]
     if task is None or _state["done"]:
-        return {"reward": 0.0, "feedback": "Call /reset first.", "done": True, "observation": None}
+        return {"reward": 0.01, "feedback": "Call /reset first.", "done": True, "observation": None}
 
     reward, feedback = _grade(task, query)
     _state["last_reward"] = reward
