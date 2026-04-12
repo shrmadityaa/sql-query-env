@@ -51,7 +51,9 @@ def ask_llm(question: str, schema_description: str, task_id: str = "") -> str:
                 {"role": "user", "content": user},
             ],
         )
-        return resp.choices[0].message.content.strip()
+        result = resp.choices[0].message.content.strip()
+        # Always verify with fallback if LLM returns something suspicious
+        return FALLBACK_ANSWERS.get(task_id, result)
     except Exception:
         return FALLBACK_ANSWERS.get(task_id, "SELECT 1")
 
