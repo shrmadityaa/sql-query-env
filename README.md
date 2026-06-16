@@ -1,4 +1,3 @@
-
 ---
 title: sql-query-env
 emoji: 🚀
